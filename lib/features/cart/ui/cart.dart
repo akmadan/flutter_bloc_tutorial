@@ -23,14 +23,15 @@ class _CartState extends State<Cart> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return 
+    Scaffold(
       appBar: AppBar(
         title: Text('Cart Items'),
       ),
       body: BlocConsumer<CartBloc, CartState>(
         bloc: cartBloc,
         listener: (context, state) {
-          
+         
         },
         listenWhen: (previous, current) => current is CartActionState,
         buildWhen: (previous, current) => current is! CartActionState,
@@ -52,5 +53,6 @@ class _CartState extends State<Cart> {
         },
       ),
     );
+  
   }
 }

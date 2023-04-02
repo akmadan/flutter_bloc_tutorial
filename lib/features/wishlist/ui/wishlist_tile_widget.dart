@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_bloc_tutorial/features/cart/bloc/cart_bloc.dart';
-import 'package:flutter_bloc_tutorial/features/home/bloc/home_bloc.dart';
 import 'package:flutter_bloc_tutorial/features/home/models/home_product_data_model.dart';
+import 'package:flutter_bloc_tutorial/features/wishlist/bloc/wishlist_bloc.dart';
 
-class CartTileWidget extends StatelessWidget {
+class WishlistTileWidget extends StatelessWidget {
   final ProductDataModel productDataModel;
-  final CartBloc cartBloc;
-  const CartTileWidget(
-      {super.key, required this.productDataModel, required this.cartBloc});
+  final WishlistBloc wishlistBloc;
+  const WishlistTileWidget(
+      {super.key, required this.productDataModel, required this.wishlistBloc});
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +19,18 @@ class CartTileWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-                Align(alignment: Alignment.topRight,
-          child: IconButton(icon: Icon(Icons.delete),onPressed: () {
-            cartBloc.add(CartRemoveFromCartEvent(productDataModel: productDataModel));
-          },),),
-          SizedBox(height: 05,),
+          Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+              icon: Icon(Icons.delete,color: Colors.red,),
+              onPressed: () {
+                wishlistBloc.add(WishlistRemoveFromItm(productDataModel));
+              },
+            ),
+          ),
+          SizedBox(
+            height: 05,
+          ),
           Container(
             height: 200,
             width: double.maxFinite,
@@ -53,13 +56,8 @@ class CartTileWidget extends StatelessWidget {
                         // homeBloc.add(HomeProductWishlistButtonClickedEvent(
                         //     clickedProduct: productDataModel));
                       },
-                      icon: Icon(Icons.favorite_border)),
-                  IconButton(
-                      onPressed: () {
-                        cartBloc.add(CartRemoveFromCartEvent(
-                            productDataModel: productDataModel));
-                      },
-                      icon: Icon(Icons.shopping_bag)),
+                      icon: Icon(Icons.favorite,color: Theme.of(context).primaryColor,)),
+                 
                 ],
               )
             ],

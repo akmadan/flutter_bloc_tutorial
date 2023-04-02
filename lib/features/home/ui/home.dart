@@ -39,7 +39,7 @@ class _HomeState extends State<Home> {
               .showSnackBar(SnackBar(content: Text('Item Carted')));
         } else if (state is HomeProductItemWishlistedActionState) {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text('Item Wishlisted')));
+              .showSnackBar(SnackBar(content: Text('Item Wishlisted'),backgroundColor: Colors.green,));
         }
       },
       builder: (context, state) {
@@ -53,7 +53,7 @@ class _HomeState extends State<Home> {
             final successState = state as HomeLoadedSuccessState;
             return Scaffold(
               appBar: AppBar(
-                backgroundColor: Colors.teal,
+                // backgroundColor: Colors.teal,
                 title: Text('Akshit Grocery App'),
                 actions: [
                   IconButton(
