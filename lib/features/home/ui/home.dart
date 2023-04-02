@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,8 +40,10 @@ class _HomeState extends State<Home> {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text('Item Carted')));
         } else if (state is HomeProductItemWishlistedActionState) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text('Item Wishlisted'),backgroundColor: Colors.green,));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Item Wishlisted'),
+            backgroundColor: Colors.green,
+          ));
         }
       },
       builder: (context, state) {

@@ -34,8 +34,8 @@ class _WishlistState extends State<Wishlist> {
                 .showSnackBar(SnackBar(content: Text("No items here"),backgroundColor: Colors.red,));
           }
           if(state is WishListItemRemoveState){
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text("Item Removed "),backgroundColor: Colors.red,));
+            // ScaffoldMessenger.of(context)
+            //     .showSnackBar(SnackBar(content: Text("Item Removed "),backgroundColor: Colors.red,));
           }
         },
         listenWhen: (previous, current) => current is! WishListActionState,

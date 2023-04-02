@@ -24,6 +24,7 @@ class WishlistTileWidget extends StatelessWidget {
             child: IconButton(
               icon: Icon(Icons.delete,color: Colors.red,),
               onPressed: () {
+                productDataModel.isWishListed =false;
                 wishlistBloc.add(WishlistRemoveFromItm(productDataModel));
               },
             ),
