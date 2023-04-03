@@ -24,7 +24,6 @@ class ProductTileWidget extends StatefulWidget {
 class _ProductTileWidgetState extends State<ProductTileWidget> {
   @override
   Widget build(BuildContext context) {
-    log("Homepage Called");
     return Container(
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),
@@ -51,7 +50,8 @@ class _ProductTileWidgetState extends State<ProductTileWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("\$" + widget.productDataModel.price.toString(),
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  style:
+                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               Row(
                 children: [
                   BlocBuilder<HomeBloc, HomeState>(
@@ -59,7 +59,8 @@ class _ProductTileWidgetState extends State<ProductTileWidget> {
                     builder: (context, state) {
                       return IconButton(
                           onPressed: () {
-                            widget.productDataModel.isWishListed = true;
+                            log(widget.productDataModel.isWishListed
+                                .toString());
                             widget.homeBloc.add(
                                 HomeProductWishlistButtonClickedEvent(
                                     clickedProduct: widget.productDataModel));

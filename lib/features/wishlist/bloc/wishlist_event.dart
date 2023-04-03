@@ -14,5 +14,13 @@ final ProductDataModel productDataModel;
 }
 
 
+class WishListDeleteAllItem extends WishlistEvent {
+}
+
+class WishListLongPressItem extends WishlistEvent {
+
+}
+
+
 
 

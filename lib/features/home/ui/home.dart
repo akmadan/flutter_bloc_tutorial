@@ -8,7 +8,11 @@ import 'package:flutter_bloc_tutorial/features/home/bloc/home_bloc.dart';
 import 'package:flutter_bloc_tutorial/features/home/ui/product_tile_widget.dart';
 import 'package:flutter_bloc_tutorial/features/wishlist/ui/wishlist.dart';
 
+import '../models/home_product_data_model.dart';
+
 class Home extends StatefulWidget {
+  static List<ProductDataModel>? productwidget;
+
   const Home({super.key});
 
   @override
@@ -55,6 +59,7 @@ class _HomeState extends State<Home> {
             ));
           case HomeLoadedSuccessState:
             final successState = state as HomeLoadedSuccessState;
+
             return Scaffold(
               appBar: AppBar(
                 // backgroundColor: Colors.teal,
@@ -75,6 +80,12 @@ class _HomeState extends State<Home> {
               body: ListView.builder(
                   itemCount: successState.products.length,
                   itemBuilder: (context, index) {
+                    Home.productwidget = successState.products;
+                    // log(Home.productwidget![int.parse("id")].id.toString());
+                    // log(Home.productwidget![int.parse("id")].name.toString());
+                    // log(Home.productwidget![int.parse("id")].isWishListed.toString());
+
+
                     return ProductTileWidget(
                         homeBloc: homeBloc,
                         productDataModel: successState.products[index]);
