@@ -50,8 +50,7 @@ class _ProductTileWidgetState extends State<ProductTileWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("\$" + widget.productDataModel.price.toString(),
-                  style:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               Row(
                 children: [
                   BlocBuilder<HomeBloc, HomeState>(
@@ -62,8 +61,11 @@ class _ProductTileWidgetState extends State<ProductTileWidget> {
                             log(widget.productDataModel.isWishListed
                                 .toString());
                             widget.homeBloc.add(
-                                HomeProductWishlistButtonClickedEvent(
-                                    clickedProduct: widget.productDataModel));
+                              HomeProductWishlistButtonClickedEvent(
+                                  clickedProduct: widget.productDataModel,
+                                  isCliked:
+                                      widget.productDataModel.isWishListed),
+                            );
                           },
                           icon: widget.productDataModel.isWishListed == false
                               ? Icon(

@@ -29,16 +29,17 @@ class _WishlistState extends State<Wishlist> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<WishlistBloc, WishlistState>(
-            bloc: wishlistBloc,
-
+      bloc: wishlistBloc,
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
             title: Text('Wishlist Items'),
             actions: [
-              IconButton(onPressed: () {
-                wishlistBloc.add(WishListDeleteAllItem());
-              }, icon: Icon(Icons.delete_forever))
+              IconButton(
+                  onPressed: () {
+                    wishlistBloc.add(WishListDeleteAllItem());
+                  },
+                  icon: Icon(Icons.delete_forever))
             ],
           ),
           body: BlocConsumer<WishlistBloc, WishlistState>(
