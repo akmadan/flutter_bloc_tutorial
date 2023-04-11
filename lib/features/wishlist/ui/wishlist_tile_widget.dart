@@ -29,96 +29,58 @@ class _WishlistTileWidgetState extends State<WishlistTileWidget> {
     return BlocBuilder<WishlistBloc, WishlistState>(
       bloc: widget.wishlistBloc,
       builder: (context, state) {
-        return InkWell(
-          // onLongPress: () {
-          //   Wishlist.isDeleteall = true;
-          //   log("Long WishList pressed");
-          //   setState(() {
-              
-          //   });
-          // },
-          child: Container(
-            margin: const EdgeInsets.all(10),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Colors.black)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: BlocBuilder<WishlistBloc, WishlistState>(
-                    bloc: widget.wishlistBloc,
-                    builder: (context, state) {
-                      return IconButton(
-                        icon: Icon(
-                          Icons.delete,
-                          color: Colors.red,
-                        ),
-                        onPressed: () {
-                          // log(widget.productDataModel.id);
-                          // log(Home
-                          //     .productwidget![
-                          //         int.parse(widget.productDataModel.id) - 1]
-                          //     .isCartListed.toString());
-                          //     log(Home
-                          //     .productwidget![
-                          //         int.parse(widget.productDataModel.id) - 1]
-                          //     .name.toString());
-                          // Home
-                          //     .productwidget![
-                          //         int.parse(widget.productDataModel.id) - 1]
-                          //     .isWishListed = false;
-
-                          widget.wishlistBloc.add(
-                              WishlistRemoveFromItm(widget.productDataModel));
-                        },
-                      );
-                    },
-                  ),
+        return Container(
+          margin: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Colors.black)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: BlocBuilder<WishlistBloc, WishlistState>(
+                  bloc: widget.wishlistBloc,
+                  builder: (context, state) {
+                    return IconButton(
+                      icon: Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      ),
+                      onPressed: () {
+                        widget.wishlistBloc.add(
+                            WishlistRemoveFromItm(widget.productDataModel));
+                      },
+                    );
+                  },
                 ),
-                SizedBox(
-                  height: 05,
-                ),
-                Container(
-                  height: 200,
-                  width: double.maxFinite,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image:
-                              NetworkImage(widget.productDataModel.imageUrl))),
-                ),
-                const SizedBox(height: 20),
-                Text(widget.productDataModel.name,
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                Text(widget.productDataModel.description),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("\$" + widget.productDataModel.price.toString(),
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
-                    Row(
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              // homeBloc.add(HomeProductWishlistButtonClickedEvent(
-                              //     clickedProduct: productDataModel));
-                            },
-                            icon: Icon(
-                              Icons.favorite,
-                              color: Theme.of(context).primaryColor,
-                            )),
-                      ],
-                    )
-                  ],
-                ),
-              ],
-            ),
+              ),
+              SizedBox(
+                height: 05,
+              ),
+              Container(
+                height: 200,
+                width: double.maxFinite,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(widget.productDataModel.imageUrl))),
+              ),
+              const SizedBox(height: 20),
+              Text(widget.productDataModel.name,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text(widget.productDataModel.description),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("\$" + widget.productDataModel.price.toString(),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                ],
+              ),
+            ],
           ),
         );
       },

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -7,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_tutorial/features/wishlist/bloc/wishlist_bloc.dart';
 import 'package:flutter_bloc_tutorial/features/wishlist/ui/wishlist_tile_widget.dart';
 
-import '../../home/ui/product_tile_widget.dart';
 
 class Wishlist extends StatefulWidget {
   const Wishlist({super.key});
