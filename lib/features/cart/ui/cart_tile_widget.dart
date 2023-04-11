@@ -23,6 +23,11 @@ class CartTileWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+                Align(alignment: Alignment.topRight,
+          child: IconButton(icon: Icon(Icons.delete),onPressed: () {
+            cartBloc.add(CartRemoveFromCartEvent(productDataModel: productDataModel));
+          },),),
+          SizedBox(height: 05,),
           Container(
             height: 200,
             width: double.maxFinite,

@@ -1,16 +1,27 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_tutorial/features/home/bloc/home_bloc.dart';
 import 'package:flutter_bloc_tutorial/features/home/models/home_product_data_model.dart';
 
-class ProductTileWidget extends StatelessWidget {
+class ProductTileWidget extends StatefulWidget {
   final ProductDataModel productDataModel;
   final HomeBloc homeBloc;
-  const ProductTileWidget(
-      {super.key, required this.productDataModel, required this.homeBloc});
+  ProductTileWidget({
+    super.key,
+    required this.productDataModel,
+    required this.homeBloc,
+  });
 
+  @override
+  State<ProductTileWidget> createState() => _ProductTileWidgetState();
+}
+
+class _ProductTileWidgetState extends State<ProductTileWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,30 +39,49 @@ class ProductTileWidget extends StatelessWidget {
             decoration: BoxDecoration(
                 image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage(productDataModel.imageUrl))),
+                    image: NetworkImage(widget.productDataModel.imageUrl))),
           ),
           const SizedBox(height: 20),
-          Text(productDataModel.name,
+          Text(widget.productDataModel.name,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          Text(productDataModel.description),
+          Text(widget.productDataModel.description),
           const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("\$" + productDataModel.price.toString(),
+              Text("\$" + widget.productDataModel.price.toString(),
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               Row(
                 children: [
+                  BlocBuilder<HomeBloc, HomeState>(
+                    bloc: widget.homeBloc,
+                    builder: (context, state) {
+                      return IconButton(
+                          onPressed: () {
+                            log(widget.productDataModel.isWishListed
+                                .toString());
+                            widget.homeBloc.add(
+                              HomeProductWishlistButtonClickedEvent(
+                                  clickedProduct: widget.productDataModel,
+                                  isCliked:
+                                      widget.productDataModel.isWishListed),
+                            );
+                          },
+                          icon: widget.productDataModel.isWishListed == false
+                              ? Icon(
+                                  Icons.favorite_border,
+                                  color: Colors.black,
+                                )
+                              : Icon(
+                                  Icons.favorite,
+                                  color: Theme.of(context).primaryColor,
+                                ));
+                    },
+                  ),
                   IconButton(
                       onPressed: () {
-                        homeBloc.add(HomeProductWishlistButtonClickedEvent(
-                            clickedProduct: productDataModel));
-                      },
-                      icon: Icon(Icons.favorite_border)),
-                  IconButton(
-                      onPressed: () {
-                        homeBloc.add(HomeProductCartButtonClickedEvent(
-                            clickedProduct: productDataModel));
+                        widget.homeBloc.add(HomeProductCartButtonClickedEvent(
+                            clickedProduct: widget.productDataModel));
                       },
                       icon: Icon(Icons.shopping_bag_outlined)),
                 ],
