@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simple_bloc/features/home/bloc/home_bloc.dart';
 import 'package:simple_bloc/features/home/models/home_product_data_model.dart';
 import 'package:simple_bloc/features/notify/bloc/notify_bloc.dart';
+import 'package:simple_bloc/features/wishlist/bloc/wishlist_bloc.dart';
 
-class ProductTileWidget extends StatelessWidget {
+class WishlistTileWidget extends StatelessWidget {
   final ProductDataModel productDataModel;
-  final HomeBloc homeBloc;
-  const ProductTileWidget(
-      {super.key, required this.productDataModel, required this.homeBloc});
+  final WishlistBloc wishlistBloc;
+  const WishlistTileWidget(
+      {super.key, required this.productDataModel, required this.wishlistBloc});
 
   @override
   Widget build(BuildContext context) {
@@ -53,29 +53,23 @@ class ProductTileWidget extends StatelessWidget {
               ),
               Row(
                 children: [
+                  // IconButton(
+                  //   onPressed: () {
+                  //     // homeBloc.add(HomeProductWishlistButtonClickedEvent(
+                  //     //     clickedProduct: productDataModel));
+                  //   },
+                  //   icon: const Icon(Icons.favorite_border),
+                  // ),
                   BlocBuilder<NotifyBloc, NotifyState>(
                     builder: (context, state) {
                       return IconButton(
                         onPressed: () {
+                          wishlistBloc.add(WishlistRemoveFromWishListEvent(
+                              productDataModel: productDataModel));
                           BlocProvider.of<NotifyBloc>(context)
-                              .add(NotifyAddEvent());
-                          homeBloc.add(HomeProductWishlistButtonClickedEvent(
-                              clickedProduct: productDataModel));
+                              .add(NotifyRemoveEvent());
                         },
-                        icon: const Icon(Icons.favorite_border),
-                      );
-                    },
-                  ),
-                  BlocBuilder<NotifyCartBloc, NotifyStateForCart>(
-                    builder: (context, state) {
-                      return IconButton(
-                        onPressed: () {
-                          BlocProvider.of<NotifyCartBloc>(context)
-                              .add(NotificationCartAddEvent());
-                          homeBloc.add(HomeProductCartButtonClickedEvent(
-                              clickedProduct: productDataModel));
-                        },
-                        icon: const Icon(Icons.shopping_bag_outlined),
+                        icon: const Icon(Icons.favorite),
                       );
                     },
                   ),

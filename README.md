@@ -1,4 +1,4 @@
-# flutter_bloc_tutorial
+# simple_bloc
 
 A new Flutter project.
 
