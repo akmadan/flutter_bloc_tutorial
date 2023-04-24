@@ -1,4 +1,4 @@
-package com.example.flutter_bloc_tutorial
+package com.example.simple_bloc
 
 import io.flutter.embedding.android.FlutterActivity
 

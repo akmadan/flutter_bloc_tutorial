@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc_tutorial/features/cart/ui/cart.dart';
-import 'package:flutter_bloc_tutorial/features/home/bloc/home_bloc.dart';
-import 'package:flutter_bloc_tutorial/features/home/ui/product_tile_widget.dart';
-import 'package:flutter_bloc_tutorial/features/wishlist/ui/wishlist.dart';
+import 'package:simple_bloc/features/cart/ui/cart.dart';
+import 'package:simple_bloc/features/home/bloc/home_bloc.dart';
+import 'package:simple_bloc/features/home/ui/product_tile_widget.dart';
+import 'package:simple_bloc/features/notify/bloc/notify_bloc.dart';
+import 'package:simple_bloc/features/wishlist/ui/wish_list.dart';
+import 'package:badges/badges.dart' as badges;
+import 'package:simple_bloc/utils/constants.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -16,7 +18,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   void initState() {
-    homeBloc.add(HomeInitialEvent());
+    homeBloc.add(HomeIntialEvent());
     super.initState();
   }
 
@@ -25,62 +27,115 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return BlocConsumer<HomeBloc, HomeState>(
       bloc: homeBloc,
-      listenWhen: (previous, current) => current is HomeActionState,
-      buildWhen: (previous, current) => current is! HomeActionState,
+      listenWhen: (previous, current) {
+        return current is HomeActionState;
+      },
+      buildWhen: (previous, current) {
+        return current is! HomeActionState;
+      },
       listener: (context, state) {
         if (state is HomeNavigateToCartPageActionState) {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Cart()));
+              context, MaterialPageRoute(builder: (context) => const Cart()));
         } else if (state is HomeNavigateToWishlistPageActionState) {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Wishlist()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const Wishlist()));
         } else if (state is HomeProductItemCartedActionState) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text('Item Carted')));
+          //Item Carted
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Item Carted'),
+          ));
         } else if (state is HomeProductItemWishlistedActionState) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text('Item Wishlisted')));
+          //Item Wishlisted
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Item Wishlisted'),
+          ));
         }
       },
       builder: (context, state) {
         switch (state.runtimeType) {
           case HomeLoadingState:
-            return Scaffold(
-                body: Center(
-              child: CircularProgressIndicator(),
-            ));
-          case HomeLoadedSuccessState:
-            final successState = state as HomeLoadedSuccessState;
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+
+          case HomeLoadedSucessState:
+            final successState = state as HomeLoadedSucessState;
             return Scaffold(
               appBar: AppBar(
-                backgroundColor: Colors.teal,
-                title: Text('Akshit Grocery App'),
+                title: const Text("Ali Grocery app"),
                 actions: [
-                  IconButton(
-                      onPressed: () {
-                        homeBloc.add(HomeWishlistButtonNavigateEvent());
-                      },
-                      icon: Icon(Icons.favorite_border)),
-                  IconButton(
-                      onPressed: () {
-                        homeBloc.add(HomeCartButtonNavigateEvent());
-                      },
-                      icon: Icon(Icons.shopping_bag_outlined)),
+                  //for WIshlist
+                  BlocBuilder<NotifyBloc, NotifyState>(
+                    builder: (context, state) {
+                      return IconButton(
+                        onPressed: () {
+                          homeBloc.add(HomeWishlistCartButtonNavigateEvent());
+                        },
+                        // icon: const Icon(Icons.favorite_border),
+                        icon: badges.Badge(
+                          showBadge: state.notifyCount > 0 ? true : false,
+                          badgeContent: Text(
+                            state.notifyCount > 99
+                                ? ':D'
+                                : state.notifyCount.toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          child: const Icon(
+                            Icons.favorite_border,
+                            // color: Colors.white,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+
+                  //FOr Cart
+                  BlocBuilder<NotifyCartBloc, NotifyStateForCart>(
+                    builder: (context, state) {
+                      return IconButton(
+                        onPressed: () {
+                          homeBloc.add(HomeCartButtonNavigateEvent());
+                        },
+                        icon: badges.Badge(
+                          showBadge: state.notifyCount > 0 ? true : false,
+                          badgeContent: Text(
+                            state.notifyCount > 99
+                                ? ':D'
+                                : state.notifyCount.toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          child: const Icon(
+                            Icons.shopping_bag_outlined,
+                            // color: Colors.white,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
               body: ListView.builder(
                   itemCount: successState.products.length,
                   itemBuilder: (context, index) {
                     return ProductTileWidget(
-                        homeBloc: homeBloc,
-                        productDataModel: successState.products[index]);
+                      productDataModel: successState.products[index],
+                      homeBloc: homeBloc,
+                    );
                   }),
             );
-
           case HomeErrorState:
-            return Scaffold(body: Center(child: Text('Error')));
+            return const Scaffold(
+              body: Center(child: Text("error")),
+            );
           default:
-            return SizedBox();
+            return const Text('Check State Problem');
         }
       },
     );

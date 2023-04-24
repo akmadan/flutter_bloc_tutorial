@@ -1,6 +1,6 @@
 {
-    "name": "flutter_bloc_tutorial",
-    "short_name": "flutter_bloc_tutorial",
+    "name": "simple_bloc",
+    "short_name": "simple_bloc",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
